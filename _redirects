@@ -1,0 +1,9 @@
+# Clean URLs for Netlify
+/pasien        /pasien.html        200
+/dokter        /dokter.html        200
+/apotek        /apotek.html        200
+/kasir         /kasir.html         200
+/admin         /admin.html         200
+/antrian-tv    /antrian-tv.html    200
+/daftar        /daftar.html        200
+/login         /login.html         200

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Login Multi-Role - KLINIK PRATAMA PUSDIKZI</title>
+  <meta name="description" content="Sistem Informasi KLINIK PRATAMA PUSDIKZI: Layanan kesehatan terpadu, Health Passport, EMR digital, antrean real-time, dan integrasi SATUSEHAT Kemenkes." />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        container: {
+          center: true,
+          padding: '2rem',
+        },
+        extend: {
+          colors: {
+            zeni: {
+              primary: '#2E5339',
+              'primary-dark': '#1E3926',
+              accent: '#D97706',
+              success: '#10B981',
+              warning: '#F59E0B',
+              danger: '#EF4444'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- CSS Stylesheets (Modular Architecture) -->
+  <link rel="stylesheet" href="css/style.css?v=2026.30" />
+  
+  <!-- Third-party Libraries -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Sticky Global Navigation Header -->
+  <header class="header-nav" id="main-header-nav">
+    <div class="container flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <!-- Brand Logo -->
+        <a href="index.html" class="nav-brand" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem;">
+          <div class="brand-icon-box" style="width: 40px; height: 40px; border-radius: 10px; background: var(--primary); color: #FFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(30,57,38,0.25);">
+            <i data-lucide="cross" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <span class="brand-text" style="font-size: 1.15rem; font-weight: 900; line-height: 1.1; color: var(--primary); letter-spacing: -0.01em;">KLINIK PRATAMA PUSDIKZI</span>
+            <small style="font-size: 0.72rem; font-weight: 800; color: var(--text-muted); letter-spacing: 0.08em;">KORPS ZENI TNI ANGKATAN DARAT</small>
+          </div>
+        </a>
+      </div>
+
+      <!-- Header Search & Actions -->
+      <div class="header-actions">
+        <!-- Global Command Palette Shortcut -->
+        <button class="btn btn-outline btn-sm flex items-center gap-2 header-search-btn" onclick="toggleCommandPalette()" title="Command Palette (Ctrl+K)">
+          <i data-lucide="search" style="width: 16px;"></i>
+          <span class="search-btn-label">Cari (Ctrl+K)</span>
+        </button>
+
+        <!-- Theme Switcher -->
+        <button class="btn btn-outline btn-icon" id="theme-toggle-btn" title="Ubah Mode Terang/Gelap">
+          <i data-lucide="moon"></i>
+        </button>
+
+        <!-- TV Antrean Link -->
+        <a href="antrian-tv.html" target="_blank" class="btn btn-outline btn-sm flex items-center gap-1">
+          <i data-lucide="tv" style="width: 16px;"></i> Display TV
+        </a>
+
+        <!-- Login / Portal Entry Button -->
+        <a href="login.html" class="btn btn-primary btn-sm flex items-center gap-2">
+          <i data-lucide="log-in" style="width: 16px;"></i>
+          <span>Portal Login</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+<main class="container flex items-center justify-center" style="flex: 1; padding: 2.5rem 1rem;">
+  <!-- Login Portal Form & Role Switcher -->
+<div class="card" style="max-width: 900px; width: 100%; padding: 2.5rem; box-shadow: var(--shadow-lg); border-radius: var(--radius-xl);">
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <span class="badge badge-primary" style="margin-bottom: 0.5rem; font-weight: 800; letter-spacing: 0.04em;">PORTAL AUTENTIKASI STAF MEDIS & PASIEN</span>
+    <h2 style="font-size: 2.1rem; color: var(--primary); font-weight: 800;">Sistem Informasi SIMKLINIK PUSDIKZI</h2>
+    <p style="color: var(--text-muted); max-width: 550px; margin: 0.5rem auto 0; font-size: 1rem;">
+      Silakan pilih hak akses role untuk masuk ke ruang kerja klinis masing-masing.
+    </p>
+  </div>
+
+  <!-- Quick Role Access Cards -->
+  <div style="margin-bottom: 2rem;">
+    <h4 style="margin-bottom: 1rem; color: var(--text-dark); font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+      <i data-lucide="shield-check" style="color: var(--primary); width: 18px;"></i> Akses Cepat Berdasarkan Role Akun:
+    </h4>
+
+    <div class="grid grid-cols-3 gap-3">
+      <a href="pasien.html" class="card card-interactive" style="padding: 1.25rem; text-decoration: none; border-left: 4px solid var(--primary);">
+        <div class="flex items-center gap-3">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: var(--primary-bg); color: var(--primary); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="user" style="width: 20px;"></i>
+          </div>
+          <div>
+            <h5 style="margin: 0; color: var(--text-main); font-size: 0.95rem;">Pasien & Passport</h5>
+            <small style="color: var(--text-muted);">Achmad Nurhadi</small>
+          </div>
+        </div>
+      </a>
+
+      <a href="dokter.html" class="card card-interactive" style="padding: 1.25rem; text-decoration: none; border-left: 4px solid var(--warning);">
+        <div class="flex items-center gap-3">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #FEF3C7; color: var(--warning); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="stethoscope" style="width: 20px;"></i>
+          </div>
+          <div>
+            <h5 style="margin: 0; color: var(--text-main); font-size: 0.95rem;">Dokter Pemeriksa</h5>
+            <small style="color: var(--text-muted);">dr. Agus Susanto, Sp.PD</small>
+          </div>
+        </div>
+      </a>
+
+      <a href="apotek.html" class="card card-interactive" style="padding: 1.25rem; text-decoration: none; border-left: 4px solid var(--success);">
+        <div class="flex items-center gap-3">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #DCFCE7; color: var(--success); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="pill" style="width: 20px;"></i>
+          </div>
+          <div>
+            <h5 style="margin: 0; color: var(--text-main); font-size: 0.95rem;">Apotek & Farmasi</h5>
+            <small style="color: var(--text-muted);">apt. Nurul Hidayah</small>
+          </div>
+        </div>
+      </a>
+
+      <a href="kasir.html" class="card card-interactive" style="padding: 1.25rem; text-decoration: none; border-left: 4px solid var(--accent);">
+        <div class="flex items-center gap-3">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #FFEDD5; color: var(--accent); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="credit-card" style="width: 20px;"></i>
+          </div>
+          <div>
+            <h5 style="margin: 0; color: var(--text-main); font-size: 0.95rem;">Kasir & Billing</h5>
+            <small style="color: var(--text-muted);">Serka M. Yusuf</small>
+          </div>
+        </div>
+      </a>
+
+      <a href="admin.html" class="card card-interactive" style="padding: 1.25rem; text-decoration: none; border-left: 4px solid var(--danger);">
+        <div class="flex items-center gap-3">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #FEE2E2; color: var(--danger); display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="shield" style="width: 20px;"></i>
+          </div>
+          <div>
+            <h5 style="margin: 0; color: var(--text-main); font-size: 0.95rem;">Admin IT & RBAC</h5>
+            <small style="color: var(--text-muted);">Super Admin</small>
+          </div>
+        </div>
+      </a>
+
+      <a href="antrian-tv.html" target="_blank" class="card card-interactive" style="padding: 1.25rem; text-decoration: none; border-left: 4px solid #38bdf8;">
+        <div class="flex items-center gap-3">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #E0F2FE; color: #0284c7; display: flex; align-items: center; justify-content: center;">
+            <i data-lucide="tv" style="width: 20px;"></i>
+          </div>
+          <div>
+            <h5 style="margin: 0; color: var(--text-main); font-size: 0.95rem;">Display Antrean TV</h5>
+            <small style="color: var(--text-muted);">TV Ruang Tunggu</small>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Self Registration Banner for New Patients -->
+  <div style="background: var(--primary-bg); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; border: 1px dashed var(--primary); margin-bottom: 2rem;">
+    <div class="flex items-center gap-3">
+      <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--primary); color: #FFF; display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="user-plus" style="width: 24px;"></i>
+      </div>
+      <div>
+        <h4 style="margin: 0; color: var(--primary); font-size: 1rem;">Belum Memiliki Akun / Pasien Baru?</h4>
+        <p style="margin: 0.15rem 0 0; font-size: 0.85rem; color: var(--text-muted);">Daftar mandiri dalam 1 menit untuk mendapatkan Nomor Rekam Medis (RM) & Health Passport.</p>
+      </div>
+    </div>
+    <a href="daftar.html" class="btn btn-primary btn-sm flex items-center gap-1" style="white-space: nowrap; text-decoration: none;">
+      <i data-lucide="arrow-right" style="width: 16px;"></i> Registrasi Sekarang
+    </a>
+  </div>
+
+  <form onsubmit="handleLoginSubmit(event)" style="display: flex; flex-direction: column; gap: 1.25rem;">
+    <div class="form-group" style="margin-bottom: 0;">
+      <label class="form-label" style="font-weight: 600;">Username / NIK / Email Medis</label>
+      <input type="text" id="login-user" class="form-control" placeholder="Contoh: dokter_agus atau 3175081205900001" required />
+    </div>
+
+    <div class="form-group" style="margin-bottom: 0;">
+      <label class="form-label" style="font-weight: 600;">Kata Sandi / PIN Keamanan</label>
+      <input type="password" id="login-pass" class="form-control" placeholder="••••••••" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="padding: 0.9rem; font-size: 1.05rem; font-weight: 600;">
+      <i data-lucide="log-in"></i> Masuk ke Sistem Informasi
+    </button>
+  </form>
+</div>
+
+<script>
+  function handleLoginSubmit(e) {
+    e.preventDefault();
+    const user = document.getElementById('login-user').value.toLowerCase();
+    showToast("Autentikasi Berhasil! Mengalihkan ke dashboard...", "success");
+    setTimeout(() => {
+      if (user.includes('dokter') || user.includes('agus')) location.href = 'dokter.php';
+      else if (user.includes('apotek') || user.includes('obat')) location.href = 'apotek.php';
+      else if (user.includes('kasir') || user.includes('bayar')) location.href = 'kasir.php';
+      else if (user.includes('admin')) location.href = 'admin.php';
+      else location.href = 'pasien.php';
+    }, 800);
+  }
+</script>
+</main>
+
+<!-- Floating Helpdesk Chatbot Widget -->
+<div class="chatbot-widget">
+  <div class="chatbot-trigger" id="chatbot-trigger" title="Pusat Bantuan & FAQ">
+    <i data-lucide="help-circle" style="width: 28px; height: 28px;"></i>
+  </div>
+
+  <div class="chatbot-panel" id="chatbot-panel">
+    <div class="chatbot-header">
+      <div class="flex items-center gap-2">
+        <div class="brand-icon-box" style="width: 32px; height: 32px;"><i data-lucide="life-buoy"></i></div>
+        <div>
+          <h4 style="color:#FFF; font-size:0.95rem; margin:0;">Pusat Bantuan & FAQ</h4>
+          <span style="font-size:0.75rem; opacity:0.8;">Layanan Informasi 24 Jam</span>
+        </div>
+      </div>
+      <button style="background:transparent; border:none; color:#FFF; cursor:pointer;" onclick="document.getElementById('chatbot-panel').classList.remove('open')">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="chatbot-body" id="chatbot-body">
+      <div class="chat-bubble chat-bubble-bot">
+        Halo! Selamat datang di <strong>KLINIK PRATAMA PUSDIKZI</strong>. Ada yang bisa kami bantu seputar jadwal poli, antrean, atau BPJS?
+      </div>
+      <div class="chatbot-quick-chips">
+        <button class="chip-btn" data-key="jadwal">🕒 Jam Buka</button>
+        <button class="chip-btn" data-key="bpjs">💳 Terima BPJS?</button>
+        <button class="chip-btn" data-key="booking">📅 Cara Booking</button>
+        <button class="chip-btn" data-key="lokasi">📍 Lokasi PUSDIKZI</button>
+      </div>
+    </div>
+
+    <div class="chatbot-footer">
+      <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Tulis pertanyaan Anda di sini..." />
+      <button class="btn btn-primary btn-sm" onclick="handleChatbotQuery('custom', document.getElementById('chatbot-input').value)">
+        <i data-lucide="send" style="width: 16px;"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Command Palette Modal (Ctrl+K) -->
+<div class="modal-overlay" id="cmd-palette-modal">
+  <div class="modal-card cmd-palette">
+    <div class="cmd-input-wrapper">
+      <i data-lucide="search" style="color: var(--text-muted);"></i>
+      <input type="text" id="cmd-input" class="cmd-input" placeholder="Cari halaman modul (Pasien, Dokter, Apotek, Kasir, Admin, TV)..." />
+    </div>
+    <div class="cmd-results">
+      <a href="pasien.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Portal Pasien</strong> (Health Passport & Booking)</span>
+        <span class="badge badge-primary">Pasien</span>
+      </a>
+      <a href="dokter.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Clinical Workspace</strong> (Dokter & EMR SOAP)</span>
+        <span class="badge badge-warning">Dokter</span>
+      </a>
+      <a href="apotek.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Instalasi Farmasi</strong> (E-Resep & Stok Obat)</span>
+        <span class="badge badge-success">Apotek</span>
+      </a>
+      <a href="kasir.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Kasir & Billing</strong> (Invoice & Pembayaran)</span>
+        <span class="badge badge-orange">Kasir</span>
+      </a>
+      <a href="admin.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Admin Command Center</strong> (Analytics & Master)</span>
+        <span class="badge badge-danger">Admin</span>
+      </a>
+      <a href="antrian-tv.html" target="_blank" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Layar TV Antrean</strong> (Fullscreen Display TV)</span>
+        <span class="badge" style="background: #E0F2FE; color: #0284c7;">TV</span>
+      </a>
+    </div>
+  </div>
+</div>
+  <!-- Institutional Military Clinic Footer -->
+  <footer class="footer-institutional" style="background: #09150C; border-top: 2px solid #233D2B; color: #CBD5E1; padding: 3.5rem 0 2rem 0; margin-top: 4rem; width: 100%; box-sizing: border-box; overflow: hidden;">
+    <div class="container" style="width: 100%; max-width: 100%; padding: 0 2.5rem; box-sizing: border-box;">
+      <div style="display: grid; grid-template-columns: 1.4fr 1fr 1.3fr; gap: 2.5rem; margin-bottom: 2.5rem; box-sizing: border-box; width: 100%;">
+        
+        <!-- Col 1: Unit Brand & Address -->
+        <div style="min-width: 0;">
+          <div class="flex items-center gap-3" style="margin-bottom: 1.1rem;">
+            <div style="width: 46px; height: 46px; border-radius: 10px; background: #1E3926; border: 1.5px solid #4D7C5B; display: flex; align-items: center; justify-content: center; color: #FDE047; box-shadow: 0 4px 10px rgba(0,0,0,0.3); flex-shrink: 0;">
+              <i data-lucide="shield" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <h4 style="color: #FFFFFF; font-size: 1.2rem; font-weight: 800; margin: 0; letter-spacing: -0.01em;">KLINIK PRATAMA PUSDIKZI</h4>
+              <small style="color: #94A3B8; font-weight: 700; letter-spacing: 0.05em;">KORPS ZENI TNI ANGKATAN DARAT</small>
+            </div>
+          </div>
+          <p style="font-size: 0.95rem; line-height: 1.65; color: #94A3B8; margin-bottom: 1.25rem;">
+            Fasilitas Kesehatan Tingkat Pertama (FKTP) yang melayani Prajurit Siswa, Personel Organik Pusdikzi Kodiklatad, Persit Kartika Chandra Kirana, dan Masyarakat Umum Peserta BPJS Kesehatan.
+          </p>
+          <div class="flex items-start gap-2" style="font-size: 0.9rem; color: #E2E8F0; line-height: 1.5;">
+            <i data-lucide="map-pin" style="width: 18px; color: #FDE047; flex-shrink: 0; margin-top: 2px;"></i>
+            <span>Jl. Jenderal Sudirman No. 35, Pabaton, Kecamatan Bogor Tengah, Kota Bogor, Jawa Barat 16121</span>
+          </div>
+        </div>
+        
+        <!-- Col 2: Polyclinic Services -->
+        <div style="min-width: 0;">
+          <h5 style="color: #FFFFFF; font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; border-bottom: 2px solid #2E5339; padding-bottom: 0.4rem;">Poliklinik & Layanan</h5>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.92rem; line-height: 2; color: #94A3B8;">
+            <li>&bull; Poli Umum & Rikkes Militer</li>
+            <li>&bull; Poli Gigi & Mulut</li>
+            <li>&bull; Poli KIA / KB & Imunisasi</li>
+            <li>&bull; Unit Gawat Darurat (UGD 24 Jam)</li>
+            <li>&bull; Instalasi Farmasi & Gudang Bekkes</li>
+            <li>&bull; Laboratorium Diagnostik Sederhana</li>
+          </ul>
+        </div>
+        
+        <!-- Col 3: Accreditation & Referral -->
+        <div style="min-width: 0;">
+          <h5 style="color: #FFFFFF; font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; border-bottom: 2px solid #2E5339; padding-bottom: 0.4rem;">Akreditasi & Integrasi</h5>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+            <div style="background: rgba(255,255,255,0.04); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box;">
+              <strong style="color: #FFFFFF; display: block;">Kode Faskes BPJS: 0115B001</strong>
+              <small style="color: #94A3B8;">Terdaftar di BPJS Kesehatan KC Kota Bogor</small>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box;">
+              <strong style="color: #FFFFFF; display: block;">Faskes Rujukan Utama:</strong>
+              <small style="color: #94A3B8; display: block; line-height: 1.4;">Rumah Sakit Tk. IV 03.04.02 Salak Bogor (RST Salak)</small>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box;">
+              <strong style="color: #FFFFFF; display: block;">SATUSEHAT Kemenkes RI:</strong>
+              <small style="color: #86EFAC;">Terverifikasi & Terintegrasi Interoperabilitas</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div style="border-top: 1px solid #1E3926; padding-top: 1.5rem; text-align: center; font-size: 0.88rem; color: #64748B; width: 100%; box-sizing: border-box;">
+        &copy; 2026 KLINIK PRATAMA PUSDIKZI &bull; PUSAT PENDIDIKAN ZENI KODIKLAT TNI-AD &bull; HAK CIPTA DILINDUNGI
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js?v=2026.35"></script>
+  <script src="js/shared.js?v=2026.35"></script>
+  <script>
+    function handleQuickQueueSubmit(e) {
+      e.preventDefault();
+      const nama = document.getElementById('quick-nama').value;
+      const poli = document.getElementById('quick-poli').value;
+      showToast(`Nomor Antrean Anda: A-004 (${poli} - ${nama})`, "success");
+      setTimeout(() => {
+        alert(`NOMOR ANTREAN ANDA: A-004\nNama: ${nama}\nTujuan: ${poli}\n\nSilakan menuju ke ruang tunggu klinik. Posisi antrean dapat dipantau di layar TV.`);
+      }, 500);
+    }
+  </script>
+</body>
+</html>

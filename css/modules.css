@@ -1,0 +1,163 @@
+/* ==========================================================================
+   KLINIK PRATAMA PUSDIKZI - Domain Modules (Passport, Timeline, TV Display)
+   ========================================================================== */
+
+/* Digital Health Passport Card */
+.health-passport-card {
+  background: var(--grad-hero);
+  color: #FFFFFF;
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.health-passport-card::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.vitals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.vital-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Medical History Timeline Visuals */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border-color);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -2rem;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.timeline-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* TV Display View Screen Specifics */
+.tv-body {
+  background: #060D08 !important;
+  color: #FFFFFF !important;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tv-header {
+  background: #111E15;
+  border-bottom: 3px solid #2E5339;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tv-clock {
+  font-family: monospace;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #FDE047;
+}
+
+.tv-main-call {
+  background: linear-gradient(135deg, #14281B 0%, #1E3926 100%);
+  border: 3px solid #528F65;
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.tv-number-huge {
+  font-size: 6rem;
+  font-weight: 900;
+  color: #FDE047;
+  line-height: 1;
+  text-shadow: 0 4px 20px rgba(253, 224, 71, 0.4);
+  margin: 1rem 0;
+}
+
+.tv-counter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.tv-counter-card {
+  background: #111E15;
+  border: 1.5px solid #2D4835;
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.tv-counter-num {
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #86EFAC;
+  margin: 0.5rem 0;
+}
+
+.tv-ticker {
+  background: #1E3926;
+  color: #FFFFFF;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-top: 2px solid #528F65;
+  margin-top: auto;
+}

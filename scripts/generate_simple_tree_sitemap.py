@@ -1,0 +1,581 @@
+import os
+import sys
+from playwright.sync_api import sync_playwright
+
+html_content = """<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitemap Tree Desktop - Sistem Informasi Klinik Pratama Pusdikzi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-dark: #14281B;
+      --primary: #1E3926;
+      --primary-emerald: #059669;
+      --primary-light: #10B981;
+      --mint-bg: #F0FDF4;
+      --mint-border: #BBF7D0;
+      --mint-accent: #34D399;
+      --text-dark: #0F172A;
+      --text-green: #142819;
+      --text-muted: #64748B;
+      --card-bg: #FFFFFF;
+      --line-color: #1E3926;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #F4F6F2;
+      color: var(--text-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    @page {
+      size: 1920px 1080px;
+      margin: 0;
+    }
+
+    .canvas-container {
+      width: 1920px;
+      height: 1080px;
+      background: #FFFFFF;
+      padding: 45px 60px 40px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      justify-content: space-between;
+    }
+
+    /* Top Accent Stripe */
+    .canvas-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 7px;
+      background: linear-gradient(90deg, #1E3926 0%, #10B981 50%, #1E3926 100%);
+    }
+
+    /* Top Root Box: Homepage */
+    .top-root-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      margin-top: 10px;
+    }
+
+    .root-node {
+      background: linear-gradient(145deg, #1E3926 0%, #0F2316 100%);
+      color: #FFFFFF;
+      padding: 16px 64px;
+      border-radius: 40px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      box-shadow: 0 10px 25px rgba(30, 57, 38, 0.28);
+      border: 2.5px solid #34D399;
+      text-align: center;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .root-node span.badge-clinic {
+      background: rgba(52, 211, 153, 0.25);
+      color: #34D399;
+      font-size: 14px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      border: 1.5px solid rgba(52, 211, 153, 0.4);
+    }
+
+    .root-stem-down {
+      width: 3.5px;
+      height: 38px;
+      background-color: var(--line-color);
+    }
+
+    /* Tree Grid Wrapper */
+    .tree-grid-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      flex: 1;
+      margin-top: -1px;
+    }
+
+    /* The Horizontal Bar spanning across all 7 columns */
+    .crossbar-line {
+      position: absolute;
+      top: -36px;
+      left: calc(100% / 14);
+      right: calc(100% / 14);
+      height: 3.5px;
+      background-color: var(--line-color);
+    }
+
+    /* 7 Columns Grid */
+    .columns-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 20px;
+      width: 100%;
+      position: relative;
+    }
+
+    .tree-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      gap: 4px;
+    }
+
+    /* Top Connector Hook from Horizontal Bar */
+    .tree-column::before {
+      content: '';
+      position: absolute;
+      top: -36px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3.5px;
+      height: 36px;
+      background-color: var(--line-color);
+    }
+
+    /* Arrow into Category Box */
+    .tree-column::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 9px solid var(--line-color);
+    }
+
+    /* Category Box (Hijau Utama) */
+    .category-box {
+      width: 100%;
+      background: linear-gradient(180deg, #1E3926 0%, #14281B 100%);
+      color: #FFFFFF;
+      padding: 14px 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.25;
+      box-shadow: 0 6px 14px rgba(30, 57, 38, 0.22);
+      border: 2px solid #059669;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .category-tag {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6EE7B7;
+      margin-top: 4px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Downward Connector Arrow */
+    .arrow-down {
+      width: 3px;
+      height: 22px;
+      background-color: var(--line-color);
+      position: relative;
+      margin: 2px 0;
+    }
+
+    .arrow-down::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: -5.5px;
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 9px solid var(--line-color);
+    }
+
+    /* Child Node Card (Putih Bersih dengan Aksen Hijau) */
+    .child-card {
+      width: 100%;
+      background: #FFFFFF;
+      color: var(--text-green);
+      padding: 14px 12px;
+      border-radius: 9px;
+      text-align: center;
+      font-size: 13.5px;
+      font-weight: 700;
+      line-height: 1.35;
+      border: 2px solid #D1D5DB;
+      border-left: 5px solid #10B981;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(30, 57, 38, 0.04);
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Variant Double Stacked Card */
+    .child-card.stack-2 {
+      position: relative;
+      background: #FAFCFA;
+      border-left-color: #059669;
+    }
+
+    .child-card.stack-2::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: 100%;
+      height: 100%;
+      background: #E6F4EA;
+      border: 1.5px solid #A7F3D0;
+      border-radius: 9px;
+      z-index: -1;
+    }
+
+    /* Footer */
+    .footer-bar {
+      width: 100%;
+      border-top: 2px solid #E2E8F0;
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #64748B;
+      margin-top: 10px;
+    }
+
+    .footer-bar strong {
+      color: #1E3926;
+    }
+
+    .legend-badges {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-box {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    .legend-darkgreen {
+      background: #1E3926;
+      border: 1.5px solid #34D399;
+    }
+
+    .legend-catgreen {
+      background: #14281B;
+      border: 1.5px solid #059669;
+    }
+
+    .legend-whitegreen {
+      background: #FFFFFF;
+      border: 2px solid #CBD5E1;
+      border-left: 4px solid #10B981;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="canvas-container">
+    
+    <!-- Top Root: Homepage -->
+    <div class="top-root-wrapper">
+      <div class="root-node">
+        <span>🏥 Homepage (Beranda Sistem Informasi Klinik PUSDIKZI)</span>
+        <span class="badge-clinic">index.html</span>
+      </div>
+      <div class="root-stem-down"></div>
+    </div>
+
+    <!-- Tree Columns Grid with Connected Crossbar -->
+    <div class="tree-grid-wrapper">
+      
+      <!-- Horizontal Crossbar spanning all 7 columns -->
+      <div class="crossbar-line"></div>
+
+      <div class="columns-row">
+        
+        <!-- KOLOM 1: PORTAL PASIEN & PUBLIK -->
+        <div class="tree-column">
+          <div class="category-box">
+            <span>Portal Pasien & Publik</span>
+            <span class="category-tag">index.html</span>
+          </div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Ambil Antrean Walk-in (NIK/RM)</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Pendaftaran Mandiri (daftar.html)</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Cek Jadwal Dokter & Poliklinik</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Booking Jadwal Konsultasi</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Pusat Bantuan & WhatsApp Center</div>
+        </div>
+
+        <!-- KOLOM 2: HEALTH PASSPORT -->
+        <div class="tree-column">
+          <div class="category-box">
+            <span>Personal Health Hub</span>
+            <span class="category-tag">pasien.html</span>
+          </div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Profil & Kartu RM Digital</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Health Passport (TTV & Alergi)</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Grafik Tren Tekanan Darah</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Medication Streak (Pill Tracker)</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Riwayat Resep & Transaksi</div>
+        </div>
+
+        <!-- KOLOM 3: DOKTER (EMR) -->
+        <div class="tree-column">
+          <div class="category-box">
+            <span>Dokter & Clinical EMR</span>
+            <span class="category-tag">dokter.html</span>
+          </div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Predictive Triage (Antrean Prioritas)</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Pemeriksaan Rekam Medis SOAP</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Pencarian Diagnosa ICD-10</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">E-Prescribing (Resep Elektronik)</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Surat Keterangan Sakit & Rujukan</div>
+        </div>
+
+        <!-- KOLOM 4: FARMASI & APOTEK -->
+        <div class="tree-column">
+          <div class="category-box">
+            <span>Farmasi & Stok Obat</span>
+            <span class="category-tag">apotek.html</span>
+          </div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Feed Resep Dokter Real-Time</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Telaah Klinis & Dosis Obat</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Peracikan & Cetak Etiket Dosis</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Alert Stok Kritis & Kadaluwarsa</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Stok Opname & Kartu Stok FEFO</div>
+        </div>
+
+        <!-- KOLOM 5: KASIR & BILLING -->
+        <div class="tree-column">
+          <div class="category-box">
+            <span>Kasir & Smart Billing</span>
+            <span class="category-tag">kasir.html</span>
+          </div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Agregasi Tagihan Tindakan & Obat</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Pembayaran Tunai & Kembalian</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Pembayaran QRIS Dinamis & Transfer</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Cetak Kwitansi Struk Thermal / WA</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Rekapitulasi Kas Shift Harian</div>
+        </div>
+
+        <!-- KOLOM 6: DISPLAY TV ANTREAN -->
+        <div class="tree-column">
+          <div class="category-box">
+            <span>Display Antrean TV</span>
+            <span class="category-tag">antrian-tv.html</span>
+          </div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Monitor Multi-Poli Real-Time</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Panggilan Suara TTS Otomatis</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Running Text Pengumuman & Info</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Jadwal Praktek Dokter Hari Ini</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Media Edukasi Promosi Kesehatan</div>
+        </div>
+
+        <!-- KOLOM 7: ADMIN COMMAND CENTER -->
+        <div class="tree-column">
+          <div class="category-box">
+            <span>Admin Command Center</span>
+            <span class="category-tag">admin.html / login.html</span>
+          </div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Dashboard KPI & Analitik Omzet</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Manajemen Pengguna (RBAC 5 Role)</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Master Data Dokter, Tarif & Obat</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card">Audit Log & Keamanan Akses</div>
+
+          <div class="arrow-down"></div>
+          <div class="child-card stack-2">Integrasi SATUSEHAT & Backup</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom Footer -->
+    <div class="footer-bar">
+      <div>
+        <span>Dokumen Resmi: <strong>Sitemap Diagram Hirarki Sistem Informasi Klinik PUSDIKZI</strong> (Tahun 2026)</span>
+      </div>
+      
+      <div class="legend-badges">
+        <div class="legend-item">
+          <div class="legend-box legend-darkgreen"></div>
+          <span>Root Utama (Homepage)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box legend-catgreen"></div>
+          <span>Modul Kategori Level 1</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box legend-whitegreen"></div>
+          <span>Halaman / Fitur Sub-Node</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
+"""
+
+html_path = r"e:\Sistem Informasi Klinik Zeni\Sitemap_Tree_Klinik_PUSZIAD.html"
+pdf_path = r"e:\Sistem Informasi Klinik Zeni\Sitemap_Tree_Klinik_PUSZIAD.pdf"
+mindmap_pdf_path = r"e:\Sistem Informasi Klinik Zeni\Sitemap_Mindmap_Klinik_PUSZIAD.pdf"
+preview_dir = r"e:\Sistem Informasi Klinik Zeni\pdf_preview"
+preview_img = os.path.join(preview_dir, "sitemap_desktop_view.png")
+
+with open(html_path, "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+os.makedirs(preview_dir, exist_ok=True)
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(args=["--no-sandbox", "--disable-setuid-sandbox"])
+    # Desktop 1920x1080 viewport
+    page = browser.new_page(viewport={"width": 1920, "height": 1080})
+    
+    page.goto(f"file:///{html_path.replace(os.sep, '/')}", wait_until="networkidle")
+    
+    # Save PDF in exact 1920x1080 Desktop 16:9 format
+    page.pdf(
+        path=pdf_path,
+        width="1920px",
+        height="1080px",
+        print_background=True,
+        margin={"top": "0px", "bottom": "0px", "left": "0px", "right": "0px"}
+    )
+    
+    # Also overwrite mindmap path
+    page.pdf(
+        path=mindmap_pdf_path,
+        width="1920px",
+        height="1080px",
+        print_background=True,
+        margin={"top": "0px", "bottom": "0px", "left": "0px", "right": "0px"}
+    )
+    
+    container = page.query_selector(".canvas-container")
+    container.screenshot(path=preview_img)
+    print(f"Preview saved: {preview_img}")
+    
+    browser.close()
+    print("SUCCESSFULLY GENERATED 1920x1080 DESKTOP SITEMAP PDF!")

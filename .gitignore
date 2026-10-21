@@ -1,0 +1,20 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment & local files
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+
+# Dependencies
+/node_modules
+/vendor
+
+# IDE & Editor
+.vscode/
+.idea/
+
+# Large temporary assets / outputs (optional)
+pdf_preview/

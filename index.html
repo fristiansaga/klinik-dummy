@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KLINIK PRATAMA PUSDIKZI - Layanan Kesehatan Terpadu Zeni TNI-AD</title>
+  <meta name="description" content="Sistem Informasi KLINIK PRATAMA PUSDIKZI: Layanan kesehatan terpadu, Health Passport, EMR digital, antrean real-time, dan integrasi SATUSEHAT Kemenkes." />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        container: {
+          center: true,
+          padding: '2rem',
+        },
+        extend: {
+          colors: {
+            zeni: {
+              primary: '#2E5339',
+              'primary-dark': '#1E3926',
+              accent: '#D97706',
+              success: '#10B981',
+              warning: '#F59E0B',
+              danger: '#EF4444'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- CSS Stylesheets (Modular Architecture) -->
+  <link rel="stylesheet" href="css/style.css?v=2026.30" />
+  
+  <!-- Third-party Libraries -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Sticky Global Navigation Header -->
+  <header class="header-nav" id="main-header-nav">
+    <div class="container flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <!-- Brand Logo -->
+        <a href="index.html" class="nav-brand" style="text-decoration: none; display: flex; align-items: center; gap: 0.75rem;">
+          <div class="brand-icon-box" style="width: 40px; height: 40px; border-radius: 10px; background: var(--primary); color: #FFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(30,57,38,0.25);">
+            <i data-lucide="cross" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div style="display: flex; flex-direction: column;">
+            <span class="brand-text" style="font-size: 1.15rem; font-weight: 900; line-height: 1.1; color: var(--primary); letter-spacing: -0.01em;">KLINIK PRATAMA PUSDIKZI</span>
+            <small style="font-size: 0.72rem; font-weight: 800; color: var(--text-muted); letter-spacing: 0.08em;">KORPS ZENI TNI ANGKATAN DARAT</small>
+          </div>
+        </a>
+      </div>
+
+      <!-- Header Search & Actions -->
+      <div class="header-actions">
+        <!-- Global Command Palette Shortcut -->
+        <button class="btn btn-outline btn-sm flex items-center gap-2 header-search-btn" onclick="toggleCommandPalette()" title="Command Palette (Ctrl+K)">
+          <i data-lucide="search" style="width: 16px;"></i>
+          <span class="search-btn-label">Cari (Ctrl+K)</span>
+        </button>
+
+        <!-- Theme Switcher -->
+        <button class="btn btn-outline btn-icon" id="theme-toggle-btn" title="Ubah Mode Terang/Gelap">
+          <i data-lucide="moon"></i>
+        </button>
+
+        <!-- TV Antrean Link -->
+        <a href="antrian-tv.html" target="_blank" class="btn btn-outline btn-sm flex items-center gap-1">
+          <i data-lucide="tv" style="width: 16px;"></i> Display TV
+        </a>
+
+        <!-- Login / Portal Entry Button -->
+        <a href="login.html" class="btn btn-primary btn-sm flex items-center gap-2">
+          <i data-lucide="log-in" style="width: 16px;"></i>
+          <span>Portal Login</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+<!-- Main Application Content Container -->
+<main class="container main-app-container" style="padding-top: 1.5rem; padding-bottom: 3rem;">
+  <!-- Hero Banner Section -->
+<section class="hero-banner-section" style="position: relative; margin-bottom: 3.5rem; min-height: 480px; display: flex; align-items: center; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg); background: #142819;">
+  <!-- Background Image with Gradient Overlay -->
+  <div class="hero-banner-bg" style="position: absolute; inset: 0; z-index: 1;">
+    <img src="assets/images/hero_clinic_warm.png" alt="Tim Medis KLINIK PRATAMA PUSDIKZI" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+    <div class="hero-banner-overlay" style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(20,40,25,0.95) 0%, rgba(20,40,25,0.85) 50%, rgba(20,40,25,0.3) 100%);"></div>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="hero-content-box" style="position: relative; z-index: 2; padding: 3.5rem; width: 100%; max-width: 820px;">
+    <span class="badge hero-badge" style="background: rgba(194, 155, 56, 0.25); color: #FDE047; border: 1.5px solid #EAB308; margin-bottom: 1.25rem; padding: 0.45rem 1.1rem; font-weight: 800; letter-spacing: 0.05em;">
+      <i data-lucide="shield-check" style="width: 16px;"></i> FASKES TINGKAT I TNI AD &bull; KODE PPK: 0115B001
+    </span>
+    <h1 class="hero-title" style="font-size: 3.2rem; margin-bottom: 1rem; line-height: 1.15; color: #FFF; text-shadow: 0 2px 10px rgba(0,0,0,0.4);">
+      Sistem Informasi Kesehatan <br/><span style="color: #93C5FD;">KLINIK PRATAMA PUSDIKZI</span>
+    </h1>
+    <p class="hero-desc" style="font-size: 1.15rem; line-height: 1.6; opacity: 0.95; margin-bottom: 2rem; color: #F1F5F9; text-shadow: 0 1px 4px rgba(0,0,0,0.4);">
+      Pelayanan Kesehatan Tingkat Pertama bagi Prajurit Siswa, Personel Organik Pusdikzi Kodiklatad, Anggota Persit KCK, serta Pasien Umum & BPJS Kesehatan. Terintegrasi EMR Rekam Medis, SATUSEHAT Kemenkes RI, dan Rujukan RST Tk. IV Salak Bogor.
+    </p>
+    
+    <div class="hero-action-buttons" style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+      <a href="pasien.html" class="btn btn-orange hero-btn-booking" style="font-size: 1.05rem; padding: 0.85rem 1.75rem; text-decoration: none;">
+        <i data-lucide="calendar"></i> Booking Kunjungan Pasien
+      </a>
+      <a href="daftar.html" class="btn hero-btn-daftar" style="font-size: 1.05rem; padding: 0.85rem 1.75rem; background: rgba(255,255,255,0.2) !important; color: #FFFFFF !important; border: 2px solid rgba(255,255,255,0.7) !important; text-decoration: none; font-weight: 700;">
+        <i data-lucide="user-plus" style="color: #FFFFFF;"></i> Daftar Pasien Baru
+      </a>
+    </div>
+  </div>
+</section>
+<!-- Quick Queue & Patient Hub Section (3-Column Command Layout on Widescreen) -->
+<section id="quick-queue-section" style="margin-bottom: 4.5rem; width: 100%;">
+  <div style="display: grid; grid-template-columns: 1fr 1.65fr 1.05fr; gap: 2rem; align-items: stretch; width: 100%; box-sizing: border-box;">
+    
+    <!-- LEFT COLUMN: Alur Pelayanan Pasien FKTP & TV Monitor Link -->
+    <div class="card" style="padding: 2rem; border-top: 5px solid var(--primary); display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-card); box-shadow: var(--shadow-sm); border-radius: var(--radius-xl);">
+      <div>
+        <div class="flex items-center gap-2.5" style="margin-bottom: 1.25rem;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--bg-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <i data-lucide="list-ordered" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-dark); margin: 0;">Alur Pelayanan Pasien</h3>
+            <small style="color: var(--text-muted); font-weight: 600;">Petunjuk Kunjungan FKTP</small>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1.1rem; margin-bottom: 1.5rem;">
+          <div class="flex items-start gap-3">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--primary); color: #FFF; font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--text-dark); display: block;">Ambil Tiket Antrean</strong>
+              <small style="color: var(--text-muted); line-height: 1.4; display: block;">Isi nama & tujuan poli pada loket mandiri di samping.</small>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--bg-subtle); color: var(--primary); font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1.5px solid var(--border-color);">2</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--text-dark); display: block;">Ruang Tunggu & TV Antrean</strong>
+              <small style="color: var(--text-muted); line-height: 1.4; display: block;">Dengarkan panggilan audio otomatis di monitor ruang tunggu.</small>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--bg-subtle); color: var(--primary); font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1.5px solid var(--border-color);">3</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--text-dark); display: block;">Pemeriksaan Dokter EMR</strong>
+              <small style="color: var(--text-muted); line-height: 1.4; display: block;">Konsultasi medis & diagnosis terintegrasi SATUSEHAT.</small>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3">
+            <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--bg-subtle); color: var(--primary); font-weight: 800; font-size: 0.88rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1.5px solid var(--border-color);">4</span>
+            <div>
+              <strong style="font-size: 0.95rem; color: var(--text-dark); display: block;">Ambil Obat di Farmasi</strong>
+              <small style="color: var(--text-muted); line-height: 1.4; display: block;">Dispensing cepat dengan notifikasi WhatsApp saat siap.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding-top: 1.25rem; border-top: 1px solid var(--border-color);">
+        <a href="antrian-tv.html" target="_blank" class="btn btn-outline btn-sm" style="width: 100%; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 700;">
+          <i data-lucide="tv" style="width: 16px;"></i> Buka Monitor TV Antrean Live
+        </a>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN (HERO FOCUS): Interactive Loket Antrean Form -->
+    <div class="card" style="padding: 2.25rem 2.5rem; border-radius: var(--radius-xl); box-shadow: 0 10px 30px rgba(30, 57, 38, 0.12); border: 2.5px solid var(--primary); background: var(--bg-card); position: relative;">
+      
+      <!-- Top Accent Badge -->
+      <div style="text-align: center; margin-bottom: 1.75rem;">
+        <span class="badge badge-primary" style="margin-bottom: 0.6rem; padding: 0.45rem 1.2rem; font-weight: 800; letter-spacing: 0.05em; font-size: 0.88rem;">
+          <i data-lucide="ticket" style="width: 16px;"></i> LOKET PENDAFTARAN ANTREAN MANDIRI
+        </span>
+        <h2 style="font-size: 2rem; color: var(--primary); font-weight: 900; margin: 0.25rem 0 0.4rem; letter-spacing: -0.01em;">
+          Ambil Nomor Antrean Pasien
+        </h2>
+        <p style="font-size: 0.98rem; color: var(--text-muted); margin: 0;">Untuk Prajurit Siswa, Anggota Organik, Persit KCK, dan Pasien BPJS/Umum.</p>
+      </div>
+
+      <!-- Live Calling Status Bar -->
+      <div style="display: flex; gap: 1rem; margin-bottom: 1.75rem; padding: 1.1rem 1.5rem; background: var(--bg-subtle); border-radius: var(--radius-lg); border: 1.5px solid var(--border-color);">
+        <div style="flex: 1; text-align: center; border-right: 2px solid var(--border-color);">
+          <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em;">Sedang Dilayani</span>
+          <h3 style="color: var(--primary); font-size: 2.3rem; margin-top: 0.2rem; font-weight: 900; line-height: 1;">A-003</h3>
+        </div>
+        <div style="flex: 1; text-align: center;">
+          <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em;">Nomor Berikutnya</span>
+          <h3 style="color: #C2410C; font-size: 2.3rem; margin-top: 0.2rem; font-weight: 900; line-height: 1;">A-004</h3>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <form onsubmit="handleQuickQueueSubmit(event)" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <div class="form-group" style="margin: 0;">
+          <label class="form-label">Nama Lengkap Pasien / NIK KTP *</label>
+          <input type="text" id="quick-nama" placeholder="Contoh: Achmad Nurhadi atau 3175081205900001" value="Achmad Nurhadi" required />
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label">Tujuan Poliklinik *</label>
+            <select id="quick-poli" required>
+              <option value="Poli Umum">Poli Umum & Rikkes Prajurit</option>
+              <option value="Poli Gigi">Poli Gigi & Mulut</option>
+              <option value="Poli Penyakit Dalam">Poli Penyakit Dalam (Sp.PD)</option>
+              <option value="Poli KIA">Poli KIA / KB (Persit KCK)</option>
+              <option value="Laboratorium">Laboratorium Sederhana</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label">Kategori / Penjamin *</label>
+            <select id="quick-penjamin" required>
+              <option value="Dinas TNI-AD">Prajurit Siswa / Personel Organik Pusdikzi</option>
+              <option value="Keluarga / Persit">Keluarga Militer / Anggota Persit KCK</option>
+              <option value="BPJS Kesehatan">BPJS Kesehatan Faskes Tingkat 1</option>
+              <option value="Umum / Pribadi">Pasien Umum (Non-BPJS / Tunai)</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+          <button type="submit" class="btn btn-primary" style="flex: 2; padding: 0.95rem; font-size: 1.05rem; font-weight: 800; box-shadow: 0 4px 14px rgba(30,57,38,0.35);">
+            <i data-lucide="printer"></i> Cetak & Ambil Tiket Antrean (A-004)
+          </button>
+          <a href="daftar.html" class="btn btn-outline" style="flex: 1; padding: 0.95rem; text-align: center; text-decoration: none; font-size: 0.95rem; font-weight: 700;">
+            <i data-lucide="user-plus"></i> Pasien Baru?
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- RIGHT COLUMN: Live Quota & On-Duty Doctors -->
+    <div class="card" style="padding: 2rem; border-top: 5px solid var(--accent); display: flex; flex-direction: column; justify-content: space-between; background: var(--bg-card); box-shadow: var(--shadow-sm); border-radius: var(--radius-xl);">
+      <div>
+        <div class="flex items-center gap-2.5" style="margin-bottom: 1.25rem;">
+          <div style="width: 40px; height: 40px; border-radius: 10px; background: #FFEDD5; color: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <i data-lucide="activity" style="width: 22px; height: 22px;"></i>
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-dark); margin: 0;">Status Kuota Poli</h3>
+            <small style="color: var(--text-muted); font-weight: 600;">Jadwal Dokter Hari Ini</small>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 1.5rem;">
+          <div style="padding: 0.75rem 0.9rem; background: var(--bg-subtle); border-radius: 8px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="font-size: 0.92rem; color: var(--text-dark); display: block;">Poli Umum & Rikkes</strong>
+              <small style="color: var(--text-muted);">dr. Siti Rahmawati</small>
+            </div>
+            <span class="badge badge-success" style="font-size: 0.82rem;">Sisa: 18</span>
+          </div>
+
+          <div style="padding: 0.75rem 0.9rem; background: var(--bg-subtle); border-radius: 8px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="font-size: 0.92rem; color: var(--text-dark); display: block;">Poli Penyakit Dalam</strong>
+              <small style="color: var(--text-muted);">dr. Agus Susanto, Sp.PD</small>
+            </div>
+            <span class="badge badge-warning" style="font-size: 0.82rem;">Sisa: 8</span>
+          </div>
+
+          <div style="padding: 0.75rem 0.9rem; background: var(--bg-subtle); border-radius: 8px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="font-size: 0.92rem; color: var(--text-dark); display: block;">Poli Gigi & Mulut</strong>
+              <small style="color: var(--text-muted);">drg. Hendra Wijaya</small>
+            </div>
+            <span class="badge badge-success" style="font-size: 0.82rem;">Sisa: 12</span>
+          </div>
+
+          <div style="padding: 0.75rem 0.9rem; background: var(--bg-subtle); border-radius: 8px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="font-size: 0.92rem; color: var(--text-dark); display: block;">UGD & Ambulans Salak</strong>
+              <small style="color: var(--text-muted);">Siaga Paramedis 24 Jam</small>
+            </div>
+            <span class="badge badge-danger" style="font-size: 0.82rem;">Siaga 24 Jam</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding: 0.85rem 1rem; background: #DCFCE7; border-radius: 8px; border: 1px solid #86EFAC; color: #166534; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i data-lucide="clock" style="width: 18px; flex-shrink: 0;"></i>
+        <span>Estimasi Waktu Tunggu: <strong>±8 Menit</strong> per Pasien</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- Section Header: Layanan & Fasilitas Kesehatan Unggulan Pasien -->
+<div style="text-align: center; margin-bottom: 2.5rem;">
+  <span class="badge badge-primary" style="margin-bottom: 0.75rem; padding: 0.4rem 1rem; font-weight: 800; letter-spacing: 0.05em;">
+    <i data-lucide="building-2" style="width: 16px;"></i> POLIKLINIK & INSTALASI MEDIS FKTP
+  </span>
+  <h2 style="font-size: 2.2rem; color: var(--primary); margin: 0 0 0.5rem; font-weight: 800;">Layanan Kesehatan Unggulan PUSDIKZI</h2>
+  <p style="color: var(--text-light); max-width: 680px; margin: 0 auto;">
+    Melayani prajurit TNI-AD, PNS, keluarga besar, serta masyarakat umum dengan tenaga medis profesional, fasilitas modern, dan integrasi BPJS Kesehatan / SATUSEHAT.
+  </p>
+</div>
+
+<!-- 6 Patient-Facing Service & Polyclinic Cards -->
+<div class="grid grid-cols-3 gap-6" style="margin-bottom: 3rem;">
+  
+  <!-- 1. Poli Umum & MCU -->
+  <div class="card card-interactive" style="padding: 1.75rem; border-top: 5px solid var(--primary); display: flex; flex-direction: column; gap: 1rem;">
+    <div class="flex items-center justify-between">
+      <div style="width: 52px; height: 52px; border-radius: 14px; background: var(--bg-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="stethoscope" style="width: 26px; height: 26px;"></i>
+      </div>
+      <span class="badge badge-success">Buka Setiap Hari</span>
+    </div>
+    <div>
+      <h3 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.35rem; font-weight: 800;">Poli Umum & Rikkes Militer</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
+        Pemeriksaan dokter umum menyeluruh, pengobatan primer, surat keterangan sehat (SKBS), dan Rikkes (Pemeriksaan Kesehatan) berkala kesiapan tugas prajurit.
+      </p>
+    </div>
+    <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">🕒 07:30 - 21:00 WIB</span>
+      <a href="pasien.html" style="font-size: 0.9rem; color: var(--primary); font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.25rem;">
+        Booking <i data-lucide="arrow-right" style="width: 14px;"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- 2. Poli Spesialis Penyakit Dalam -->
+  <div class="card card-interactive" style="padding: 1.75rem; border-top: 5px solid var(--warning); display: flex; flex-direction: column; gap: 1rem;">
+    <div class="flex items-center justify-between">
+      <div style="width: 52px; height: 52px; border-radius: 14px; background: #FEF3C7; color: var(--warning); display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="activity" style="width: 26px; height: 26px;"></i>
+      </div>
+      <span class="badge badge-warning">Dokter Spesialis</span>
+    </div>
+    <div>
+      <h3 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.35rem; font-weight: 800;">Poli Penyakit Dalam (Sp.PD)</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
+        Konsultasi mendalam penyakit kardiovaskular, hipertensi, diabetes melitus, gangguan ginjal, lambung, dan uji laboratorium cepat (POCT).
+      </p>
+    </div>
+    <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">🕒 08:00 - 13:00 WIB</span>
+      <a href="pasien.html" style="font-size: 0.9rem; color: var(--warning); font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.25rem;">
+        Booking <i data-lucide="arrow-right" style="width: 14px;"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- 3. Poli Gigi & Mulut -->
+  <div class="card card-interactive" style="padding: 1.75rem; border-top: 5px solid var(--accent); display: flex; flex-direction: column; gap: 1rem;">
+    <div class="flex items-center justify-between">
+      <div style="width: 52px; height: 52px; border-radius: 14px; background: #FFEDD5; color: var(--accent); display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="smile" style="width: 26px; height: 26px;"></i>
+      </div>
+      <span class="badge badge-orange">Dental Unit Modern</span>
+    </div>
+    <div>
+      <h3 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.35rem; font-weight: 800;">Poli Gigi & Mulut</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
+        Penambalan gigi sinar komposit, pembersihan karang gigi (scaling), pencabutan gigi, serta perawatan gusi dengan sterilisasi autoclave.
+      </p>
+    </div>
+    <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">🕒 09:00 - 15:00 WIB</span>
+      <a href="pasien.html" style="font-size: 0.9rem; color: var(--accent); font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.25rem;">
+        Booking <i data-lucide="arrow-right" style="width: 14px;"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- 4. Poli KIA & Kebidanan -->
+  <div class="card card-interactive" style="padding: 1.75rem; border-top: 5px solid #9333EA; display: flex; flex-direction: column; gap: 1rem;">
+    <div class="flex items-center justify-between">
+      <div style="width: 52px; height: 52px; border-radius: 14px; background: #F3E8FF; color: #9333EA; display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="heart" style="width: 26px; height: 26px;"></i>
+      </div>
+      <span class="badge" style="background: #F3E8FF; color: #9333EA; border: 1px solid #D8B4FE;">Persit & Balita</span>
+    </div>
+    <div>
+      <h3 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.35rem; font-weight: 800;">Poli KIA, KB & Imunisasi</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
+        Pemeriksaan kehamilan (ANC), imunisasi dasar lengkap balita, pelayanan KB Persit KCK, dan konsultasi gizi & tumbuh kembang anak.
+      </p>
+    </div>
+    <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">🕒 08:00 - 14:00 WIB</span>
+      <a href="pasien.html" style="font-size: 0.9rem; color: #9333EA; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 0.25rem;">
+        Booking <i data-lucide="arrow-right" style="width: 14px;"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- 5. Farmasi & Gudang Bekkes -->
+  <div class="card card-interactive" style="padding: 1.75rem; border-top: 5px solid var(--success); display: flex; flex-direction: column; gap: 1rem;">
+    <div class="flex items-center justify-between">
+      <div style="width: 52px; height: 52px; border-radius: 14px; background: #DCFCE7; color: var(--success); display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="pill" style="width: 26px; height: 26px;"></i>
+      </div>
+      <span class="badge badge-success">E-Resep Cepat</span>
+    </div>
+    <div>
+      <h3 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.35rem; font-weight: 800;">Instalasi Farmasi & Bekkes</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
+        Penyediaan obat generik & paten, perbekalan kesehatan prajurit, dispensing cepat, serta integrasi notifikasi WhatsApp saat resep siap.
+      </p>
+    </div>
+    <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">🕒 Siaga 24 Jam</span>
+      <span style="font-size: 0.88rem; color: var(--success); font-weight: 800;">Cover BPJS 100%</span>
+    </div>
+  </div>
+
+  <!-- 6. UGD & Evakuasi Medis -->
+  <div class="card card-interactive" style="padding: 1.75rem; border-top: 5px solid var(--danger); display: flex; flex-direction: column; gap: 1rem;">
+    <div class="flex items-center justify-between">
+      <div style="width: 52px; height: 52px; border-radius: 14px; background: #FEE2E2; color: var(--danger); display: flex; align-items: center; justify-content: center;">
+        <i data-lucide="siren" style="width: 26px; height: 26px;"></i>
+      </div>
+      <span class="badge badge-danger">Emergency 24/7</span>
+    </div>
+    <div>
+      <h3 style="font-size: 1.25rem; color: var(--text-dark); margin-bottom: 0.35rem; font-weight: 800;">UGD & Ambulans Salak</h3>
+      <p style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.55; margin: 0;">
+        Penanganan kegawatdaruratan trauma latihan, stabilisasi medis, serta armada ambulans siaga rujukan cepat ke RST Tk. IV Salak Bogor.
+      </p>
+    </div>
+    <div style="margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.85rem; color: var(--danger); font-weight: 800;">📞 (0251) 832-1234</span>
+      <span style="font-size: 0.88rem; color: var(--danger); font-weight: 800;">Siaga Penuh</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Staff Portal Quick Entry Banner -->
+<div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.25rem 2rem; border: 1px dashed var(--border-color); display: flex; align-items: center; justify-content: space-between; flex-wrap: gap-4; margin-bottom: 4rem;">
+  <div class="flex items-center gap-3">
+    <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--primary-bg); color: var(--primary); display: flex; align-items: center; justify-content: center;">
+      <i data-lucide="shield-check" style="width: 22px;"></i>
+    </div>
+    <div>
+      <strong style="color: var(--text-main); font-size: 0.95rem;">Apakah Anda Dokter atau Tenaga Medis Klinik?</strong>
+      <p style="color: var(--text-muted); font-size: 0.8rem; margin: 0.15rem 0 0;">Masuk ke ruang kerja EMR SOAP, farmasi dispensing, kasir billing, dan admin melalui portal login resmi.</p>
+    </div>
+  </div>
+  <a href="login.html" class="btn btn-outline btn-sm flex items-center gap-1.5" style="white-space: nowrap; text-decoration: none;">
+    <i data-lucide="log-in" style="width: 15px;"></i> Masuk Portal Staf Medis
+  </a>
+</div>
+<!-- Section: Jadwal Praktik Dokter Real-Time -->
+<section class="card" style="padding: 2.5rem; margin-bottom: 4rem; border-top: 5px solid var(--primary);">
+  <div class="flex justify-between items-center flex-wrap gap-4" style="margin-bottom: 2rem;">
+    <div>
+      <span class="badge badge-primary" style="margin-bottom: 0.5rem;"><i data-lucide="calendar"></i> ROSTER DOKTER HARI INI</span>
+      <h2 style="font-size: 1.8rem; color: var(--primary); margin: 0;">Jadwal Dokter & Status Praktik Real-Time</h2>
+      <p style="color: var(--text-light); margin: 0.25rem 0 0;">Informasi ketersediaan dan jam jaga dokter spesialis & umum di KLINIK PRATAMA PUSDIKZI.</p>
+    </div>
+    <a href="daftar.html" class="btn btn-primary btn-sm flex items-center gap-1">
+      <i data-lucide="user-plus"></i> Pasien Baru? Daftar Online
+    </a>
+  </div>
+
+  <div class="grid grid-cols-4 gap-4" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+    <!-- Dokter 1 -->
+    <div class="card" style="padding: 1.5rem; background: var(--bg-main); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem;">
+      <div class="flex justify-between items-start">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: #FEF3C7; color: var(--warning); display: flex; align-items: center; justify-content: center; font-weight: 700;">
+          DA
+        </div>
+        <span class="badge badge-success">Sedang Praktik</span>
+      </div>
+      <div>
+        <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-main);">dr. Agus Susanto, Sp.PD</h4>
+        <span style="font-size: 0.8rem; color: var(--primary); font-weight: 600;">Spesialis Penyakit Dalam</span>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+        🕒 08:00 - 13:00 WIB • Ruang Periksa 2
+      </div>
+    </div>
+
+    <!-- Dokter 2 -->
+    <div class="card" style="padding: 1.5rem; background: var(--bg-main); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem;">
+      <div class="flex justify-between items-start">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: #DCFCE7; color: var(--success); display: flex; align-items: center; justify-content: center; font-weight: 700;">
+          DS
+        </div>
+        <span class="badge badge-warning">Piket Siang (13:00)</span>
+      </div>
+      <div>
+        <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-main);">dr. Siti Rahmawati</h4>
+        <span style="font-size: 0.8rem; color: var(--success); font-weight: 600;">Dokter Umum & MCU</span>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+        🕒 13:00 - 18:00 WIB • Ruang Periksa 1
+      </div>
+    </div>
+
+    <!-- Dokter 3 -->
+    <div class="card" style="padding: 1.5rem; background: var(--bg-main); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem;">
+      <div class="flex justify-between items-start">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: #FFEDD5; color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700;">
+          DB
+        </div>
+        <span class="badge badge-success">Sedang Praktik</span>
+      </div>
+      <div>
+        <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-main);">drg. Budi Santoso</h4>
+        <span style="font-size: 0.8rem; color: var(--accent); font-weight: 600;">Dokter Gigi & Mulut</span>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+        🕒 09:00 - 15:00 WIB • Poli Gigi
+      </div>
+    </div>
+
+    <!-- Bidan / KIA -->
+    <div class="card" style="padding: 1.5rem; background: var(--bg-main); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem;">
+      <div class="flex justify-between items-start">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: #F3E8FF; color: #9333EA; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+          BN
+        </div>
+        <span class="badge badge-success">Sedang Praktik</span>
+      </div>
+      <div>
+        <h4 style="margin: 0; font-size: 1.05rem; color: var(--text-main);">Bdn. Nurhasanah, S.ST</h4>
+        <span style="font-size: 0.8rem; color: #9333EA; font-weight: 600;">Kebidanan & KB (Poli KIA)</span>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+        🕒 08:00 - 14:00 WIB • Ruang KIA
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Floating Helpdesk Chatbot Widget -->
+<div class="chatbot-widget">
+  <div class="chatbot-trigger" id="chatbot-trigger" title="Pusat Bantuan & FAQ">
+    <i data-lucide="help-circle" style="width: 28px; height: 28px;"></i>
+  </div>
+
+  <div class="chatbot-panel" id="chatbot-panel">
+    <div class="chatbot-header">
+      <div class="flex items-center gap-2">
+        <div class="brand-icon-box" style="width: 32px; height: 32px;"><i data-lucide="life-buoy"></i></div>
+        <div>
+          <h4 style="color:#FFF; font-size:0.95rem; margin:0;">Pusat Bantuan & FAQ</h4>
+          <span style="font-size:0.75rem; opacity:0.8;">Layanan Informasi 24 Jam</span>
+        </div>
+      </div>
+      <button style="background:transparent; border:none; color:#FFF; cursor:pointer;" onclick="document.getElementById('chatbot-panel').classList.remove('open')">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="chatbot-body" id="chatbot-body">
+      <div class="chat-bubble chat-bubble-bot">
+        Halo! Selamat datang di <strong>KLINIK PRATAMA PUSDIKZI</strong>. Ada yang bisa kami bantu seputar jadwal poli, antrean, atau BPJS?
+      </div>
+      <div class="chatbot-quick-chips">
+        <button class="chip-btn" data-key="jadwal">🕒 Jam Buka</button>
+        <button class="chip-btn" data-key="bpjs">💳 Terima BPJS?</button>
+        <button class="chip-btn" data-key="booking">📅 Cara Booking</button>
+        <button class="chip-btn" data-key="lokasi">📍 Lokasi PUSDIKZI</button>
+      </div>
+    </div>
+
+    <div class="chatbot-footer">
+      <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Tulis pertanyaan Anda di sini..." />
+      <button class="btn btn-primary btn-sm" onclick="handleChatbotQuery('custom', document.getElementById('chatbot-input').value)">
+        <i data-lucide="send" style="width: 16px;"></i>
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Command Palette Modal (Ctrl+K) -->
+<div class="modal-overlay" id="cmd-palette-modal">
+  <div class="modal-card cmd-palette">
+    <div class="cmd-input-wrapper">
+      <i data-lucide="search" style="color: var(--text-muted);"></i>
+      <input type="text" id="cmd-input" class="cmd-input" placeholder="Cari halaman modul (Pasien, Dokter, Apotek, Kasir, Admin, TV)..." />
+    </div>
+    <div class="cmd-results">
+      <a href="pasien.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Portal Pasien</strong> (Health Passport & Booking)</span>
+        <span class="badge badge-primary">Pasien</span>
+      </a>
+      <a href="dokter.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Clinical Workspace</strong> (Dokter & EMR SOAP)</span>
+        <span class="badge badge-warning">Dokter</span>
+      </a>
+      <a href="apotek.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Instalasi Farmasi</strong> (E-Resep & Stok Obat)</span>
+        <span class="badge badge-success">Apotek</span>
+      </a>
+      <a href="kasir.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Kasir & Billing</strong> (Invoice & Pembayaran)</span>
+        <span class="badge badge-orange">Kasir</span>
+      </a>
+      <a href="admin.html" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Admin Command Center</strong> (Analytics & Master)</span>
+        <span class="badge badge-danger">Admin</span>
+      </a>
+      <a href="antrian-tv.html" target="_blank" class="cmd-item" style="text-decoration: none;">
+        <span><strong>Buka Layar TV Antrean</strong> (Fullscreen Display TV)</span>
+        <span class="badge" style="background: #E0F2FE; color: #0284c7;">TV</span>
+      </a>
+    </div>
+  </div>
+</div>
+  <!-- Institutional Military Clinic Footer -->
+  <footer class="footer-institutional" style="background: #09150C; border-top: 2px solid #233D2B; color: #CBD5E1; padding: 3.5rem 0 2rem 0; margin-top: 4rem; width: 100%; box-sizing: border-box; overflow: hidden;">
+    <div class="container" style="width: 100%; max-width: 100%; padding: 0 2.5rem; box-sizing: border-box;">
+      <div style="display: grid; grid-template-columns: 1.4fr 1fr 1.3fr; gap: 2.5rem; margin-bottom: 2.5rem; box-sizing: border-box; width: 100%;">
+        
+        <!-- Col 1: Unit Brand & Address -->
+        <div style="min-width: 0;">
+          <div class="flex items-center gap-3" style="margin-bottom: 1.1rem;">
+            <div style="width: 46px; height: 46px; border-radius: 10px; background: #1E3926; border: 1.5px solid #4D7C5B; display: flex; align-items: center; justify-content: center; color: #FDE047; box-shadow: 0 4px 10px rgba(0,0,0,0.3); flex-shrink: 0;">
+              <i data-lucide="shield" style="width: 24px; height: 24px;"></i>
+            </div>
+            <div>
+              <h4 style="color: #FFFFFF; font-size: 1.2rem; font-weight: 800; margin: 0; letter-spacing: -0.01em;">KLINIK PRATAMA PUSDIKZI</h4>
+              <small style="color: #94A3B8; font-weight: 700; letter-spacing: 0.05em;">KORPS ZENI TNI ANGKATAN DARAT</small>
+            </div>
+          </div>
+          <p style="font-size: 0.95rem; line-height: 1.65; color: #94A3B8; margin-bottom: 1.25rem;">
+            Fasilitas Kesehatan Tingkat Pertama (FKTP) yang melayani Prajurit Siswa, Personel Organik Pusdikzi Kodiklatad, Persit Kartika Chandra Kirana, dan Masyarakat Umum Peserta BPJS Kesehatan.
+          </p>
+          <div class="flex items-start gap-2" style="font-size: 0.9rem; color: #E2E8F0; line-height: 1.5;">
+            <i data-lucide="map-pin" style="width: 18px; color: #FDE047; flex-shrink: 0; margin-top: 2px;"></i>
+            <span>Jl. Jenderal Sudirman No. 35, Pabaton, Kecamatan Bogor Tengah, Kota Bogor, Jawa Barat 16121</span>
+          </div>
+        </div>
+        
+        <!-- Col 2: Polyclinic Services -->
+        <div style="min-width: 0;">
+          <h5 style="color: #FFFFFF; font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; border-bottom: 2px solid #2E5339; padding-bottom: 0.4rem;">Poliklinik & Layanan</h5>
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.92rem; line-height: 2; color: #94A3B8;">
+            <li>&bull; Poli Umum & Rikkes Militer</li>
+            <li>&bull; Poli Gigi & Mulut</li>
+            <li>&bull; Poli KIA / KB & Imunisasi</li>
+            <li>&bull; Unit Gawat Darurat (UGD 24 Jam)</li>
+            <li>&bull; Instalasi Farmasi & Gudang Bekkes</li>
+            <li>&bull; Laboratorium Diagnostik Sederhana</li>
+          </ul>
+        </div>
+        
+        <!-- Col 3: Accreditation & Referral -->
+        <div style="min-width: 0;">
+          <h5 style="color: #FFFFFF; font-size: 1.05rem; font-weight: 800; margin-bottom: 1rem; border-bottom: 2px solid #2E5339; padding-bottom: 0.4rem;">Akreditasi & Integrasi</h5>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+            <div style="background: rgba(255,255,255,0.04); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box;">
+              <strong style="color: #FFFFFF; display: block;">Kode Faskes BPJS: 0115B001</strong>
+              <small style="color: #94A3B8;">Terdaftar di BPJS Kesehatan KC Kota Bogor</small>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box;">
+              <strong style="color: #FFFFFF; display: block;">Faskes Rujukan Utama:</strong>
+              <small style="color: #94A3B8; display: block; line-height: 1.4;">Rumah Sakit Tk. IV 03.04.02 Salak Bogor (RST Salak)</small>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); box-sizing: border-box;">
+              <strong style="color: #FFFFFF; display: block;">SATUSEHAT Kemenkes RI:</strong>
+              <small style="color: #86EFAC;">Terverifikasi & Terintegrasi Interoperabilitas</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <div style="border-top: 1px solid #1E3926; padding-top: 1.5rem; text-align: center; font-size: 0.88rem; color: #64748B; width: 100%; box-sizing: border-box;">
+        &copy; 2026 KLINIK PRATAMA PUSDIKZI &bull; PUSAT PENDIDIKAN ZENI KODIKLAT TNI-AD &bull; HAK CIPTA DILINDUNGI
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js?v=2026.35"></script>
+  <script src="js/shared.js?v=2026.35"></script>
+  <script>
+    function handleQuickQueueSubmit(e) {
+      e.preventDefault();
+      const nama = document.getElementById('quick-nama').value;
+      const poli = document.getElementById('quick-poli').value;
+      showToast(`Nomor Antrean Anda: A-004 (${poli} - ${nama})`, "success");
+      setTimeout(() => {
+        alert(`NOMOR ANTREAN ANDA: A-004\nNama: ${nama}\nTujuan: ${poli}\n\nSilakan menuju ke ruang tunggu klinik. Posisi antrean dapat dipantau di layar TV.`);
+      }, 500);
+    }
+  </script>
+</body>
+</html>

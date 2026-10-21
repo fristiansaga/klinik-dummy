@@ -1,0 +1,19 @@
+/* ==========================================================================
+   KLINIK PRATAMA PUSDIKZI - Master Modular Stylesheet
+   KORPS ZENI TNI ANGKATAN DARAT
+   ========================================================================== */
+
+/* 1. Design Tokens, Theme Variables & Typography */
+@import url('tokens.css?v=2026.22');
+
+/* 2. Layout, Header, Full Bleed Containers, Sidebar Drawer & Mobile Responsive */
+@import url('layout.css?v=2026.22');
+
+/* 3. Reusable Components (Buttons, Badges, Cards, Forms, Data Tables, Steppers) */
+@import url('components.css?v=2026.22');
+
+/* 4. Domain Modules (Digital Health Passport, Medical Timeline, TV Display) */
+@import url('modules.css?v=2026.22');
+
+/* 5. Interactive Modals, Toast Alerts, Command Palette & WhatsApp Simulator */
+@import url('modals.css?v=2026.22');
